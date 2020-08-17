@@ -10,10 +10,10 @@ class RegistrationsController < Devise::RegistrationsController
     build_resource(sign_up_params)
     resource.profile = Candidate.create(name: 'test')
     if resource.valid?
-      token = encode_token({ user_id: resource.id, token: token })
+      resource.save
+      token = encode_token({ user_id: resource.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
     end
-    resource.save
     render_resource(resource)
   end
 end
