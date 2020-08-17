@@ -13,7 +13,7 @@ class RegistrationsController < Devise::RegistrationsController
       resource.save
       token = encode_token({ user_id: resource.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
+      render_resource(resource)
     end
-    render_resource(resource)
   end
 end
