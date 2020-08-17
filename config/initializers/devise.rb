@@ -300,9 +300,11 @@ Devise.setup do |config|
   # ActiveSupport.on_load(:devise_failure_app) do
   #   include Turbolinks::Controller
   # end
+  config.navigational_formats = []
 
   # ==> Configuration for :registerable
   config.jwt do |jwt|
+    p ENV['DEVISE_SECRET_KEY']
     jwt.secret = ENV['DEVISE_SECRET_KEY']
     jwt.dispatch_requests = [
       ['POST', %r{^/login$}], ['POST', %r{^/signup$}]

@@ -1,26 +1,19 @@
-class RegistrationsController < Devise::SessionsController
+class RegistrationsController < Devise::RegistrationsController
   respond_to :json
+  include ActionController::Cookies
+
+  def encode_token(payload)
+    JWT.encode(payload, ENV['DEVISE_SECRET_KEY'])
+  end
+
   def create
-    @user = User.new(user_params)
-    @user.profile = Candidate.new(candidate_params)
-    @user.save
-  end
-
-  private
-
-  def respond_with(resource, _opts = {})
-    render json: resource
+    build_resource(sign_up_params)
+    resource.profile = Candidate.create(name: 'test')
+    if resource.valid?
+      token = encode_token({ user_id: resource.id, token: token })
+      cookies[:token] = { value: token, httponly: true }
     end
-
-  def respond_to_on_destroy
-    head :ok
-      end
-
-  def user_params
-    params.require(:user).permit(:email, :password)
-  end
-
-  def candidate_params
-    params.require(:candidate).permit(:name)
+    resource.save
+    render_resource(resource)
   end
 end

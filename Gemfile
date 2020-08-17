@@ -7,7 +7,7 @@ ruby '2.6.5'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server
-gem 'devise-jwt'
+gem 'devise-jwt', '~> 0.7.0'
 gem "figaro"
 
 gem 'dry-configurable', '0.9.0'
