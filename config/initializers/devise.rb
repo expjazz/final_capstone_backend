@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # Assuming you have not yet modified this file, each configuration option below
 # is set to its default value. Note that some are commented out while others
 # are not: uncommented lines are intended to protect your configuration from
@@ -304,6 +302,16 @@ Devise.setup do |config|
   # end
 
   # ==> Configuration for :registerable
+  config.jwt do |jwt|
+    jwt.secret = ENV['DEVISE_SECRET_KEY']
+    jwt.dispatch_requests = [
+      ['POST', %r{^/login$}], ['POST', %r{^/signup$}]
+    ]
+    jwt.revocation_requests = [
+      ['DELETE', %r{^/logout$}]
+    ]
+    jwt.expiration_time = 100.minutes.to_i
+  end
 
   # When set to false, does not sign a user in automatically after their password is
   # changed. Defaults to true, so a user is signed in automatically after changing a password.
