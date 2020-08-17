@@ -7,6 +7,13 @@ ruby '2.6.5'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server
+gem 'devise-jwt'
+gem "figaro"
+
+gem 'dry-configurable', '0.9.0'
+
+
+
 gem 'puma', '~> 4.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
