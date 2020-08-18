@@ -15,6 +15,8 @@ Rails.application.routes.draw do
   get '/logged', to: 'sessions#logged_in'
   devise_scope :user do
     delete '/signout', to: 'sessions#delete'
+    get '/loggeduser', to: 'sessions#logged?'
+
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
