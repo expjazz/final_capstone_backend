@@ -4,7 +4,10 @@ class RegistrationsController < Devise::RegistrationsController
 
   def create
     build_resource(sign_up_params)
-    resource.profile = Candidate.create(name: 'test')
+    resource.profile = Candidate.new(name: params[:candidate][:name]) if params[:candidate]
+    resource.profile = Company.new(name: params[:company][:name]) if params[:company]
+    resource.profile = Admin.new(name: params[:admin][:name]) if params[:admin]
+
     if resource.valid?
       resource.save
       token = encode_token({ user_id: resource.id, token: 'token' })
@@ -14,4 +17,8 @@ class RegistrationsController < Devise::RegistrationsController
       render json: { message: resource.errors.full_messages }
     end
   end
+
+  private
+
+  def profile_params(param); end
 end
