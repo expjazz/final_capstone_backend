@@ -304,7 +304,6 @@ Devise.setup do |config|
 
   # ==> Configuration for :registerable
   config.jwt do |jwt|
-    p ENV['DEVISE_SECRET_KEY']
     jwt.secret = ENV['DEVISE_SECRET_KEY']
     jwt.dispatch_requests = [
       ['POST', %r{^/login$}], ['POST', %r{^/signup$}]
