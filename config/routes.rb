@@ -18,6 +18,6 @@ Rails.application.routes.draw do
     get '/loggeduser', to: 'sessions#logged?'
 
   end
-  post '/curriculum', to: 'curriculums#create'
+  resources :curriculums
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

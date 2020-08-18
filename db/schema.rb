@@ -10,12 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_082438) do
+ActiveRecord::Schema.define(version: 2020_08_18_215519) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "candidate_addresses", force: :cascade do |t|
+    t.integer "curriculum_id", null: false
+    t.string "country"
+    t.string "cep"
+    t.string "state"
+    t.string "city"
+    t.string "hood"
+    t.string "street"
+    t.string "cel"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["curriculum_id"], name: "index_candidate_addresses_on_curriculum_id"
+  end
+
+  create_table "candidate_personals", force: :cascade do |t|
+    t.integer "curriculum_id", null: false
+    t.string "children"
+    t.string "married"
+    t.string "cpf"
+    t.string "race"
+    t.string "nationality"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["curriculum_id"], name: "index_candidate_personals_on_curriculum_id"
   end
 
   create_table "candidates", force: :cascade do |t|
@@ -44,6 +70,7 @@ ActiveRecord::Schema.define(version: 2020_08_18_082438) do
     t.string "end"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "name"
     t.index ["curriculum_id"], name: "index_jobs_on_curriculum_id"
   end
 
@@ -67,6 +94,8 @@ ActiveRecord::Schema.define(version: 2020_08_18_082438) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "candidate_addresses", "curriculums"
+  add_foreign_key "candidate_personals", "curriculums"
   add_foreign_key "curriculums", "users"
   add_foreign_key "jobs", "curriculums"
 end
