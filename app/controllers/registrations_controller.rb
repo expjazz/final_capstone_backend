@@ -2,10 +2,6 @@ class RegistrationsController < Devise::RegistrationsController
   respond_to :json
   include ActionController::Cookies
 
-  def encode_token(payload)
-    JWT.encode(payload, ENV['DEVISE_SECRET_KEY'])
-  end
-
   def create
     build_resource(sign_up_params)
     resource.profile = Candidate.create(name: 'test')
@@ -14,6 +10,8 @@ class RegistrationsController < Devise::RegistrationsController
       token = encode_token({ user_id: resource.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
       render_resource(resource)
+    else
+      render json: { message: resource.errors.full_messages }
     end
   end
 end

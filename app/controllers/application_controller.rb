@@ -10,6 +10,10 @@ class ApplicationController < ActionController::API
     end
   end
 
+  def encode_token(payload)
+    JWT.encode(payload, ENV['DEVISE_SECRET_KEY'])
+  end
+
   def validation_error(resource)
     render json: {
       errors: [
@@ -23,12 +27,11 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
-  def require_current_user    
+  def require_current_user
     if cookies[:token]
-      return JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'] )
-    else  
-      render json: { message: 'needs user'}
+      puts JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
+    else
+      render json: { message: 'needs user' }
     end
   end
 end
-
