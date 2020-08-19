@@ -6,6 +6,7 @@ class CurriculumsController < ApplicationController
     address = CandidateAddress.create(params_address)
     personal = CandidatePersonal.create(params_personal)
     @curriculum = Curriculum.new(params_curriculum)
+    byebug
     @curriculum.candidate_personal = personal
     @curriculum.candidate_address = address
     if params[:curriculum][:jobs]
