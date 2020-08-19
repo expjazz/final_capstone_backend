@@ -27,6 +27,10 @@ class ApplicationController < ActionController::API
     }, status: :bad_request
   end
 
+  def info_current_user
+    JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
+  end
+
   def require_current_user
     if cookies[:token]
       puts JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
