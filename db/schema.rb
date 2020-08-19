@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_18_215519) do
+ActiveRecord::Schema.define(version: 2020_08_19_150300) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -56,12 +56,46 @@ ActiveRecord::Schema.define(version: 2020_08_18_215519) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "company_addresses", force: :cascade do |t|
+    t.integer "company_id", null: false
+    t.string "country"
+    t.string "cep"
+    t.string "state"
+    t.string "city"
+    t.string "hood"
+    t.string "street"
+    t.string "cel"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_company_addresses_on_company_id"
+  end
+
+  create_table "company_personals", force: :cascade do |t|
+    t.string "cnpj"
+    t.string "size"
+    t.string "aboutUs"
+    t.integer "company_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["company_id"], name: "index_company_personals_on_company_id"
+  end
+
   create_table "curriculums", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "about_me"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_curriculums_on_user_id"
+  end
+
+  create_table "job_offers", force: :cascade do |t|
+    t.string "requirement"
+    t.integer "user_id", null: false
+    t.string "salary"
+    t.string "position"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_job_offers_on_user_id"
   end
 
   create_table "jobs", force: :cascade do |t|
@@ -96,6 +130,9 @@ ActiveRecord::Schema.define(version: 2020_08_18_215519) do
 
   add_foreign_key "candidate_addresses", "curriculums"
   add_foreign_key "candidate_personals", "curriculums"
+  add_foreign_key "company_addresses", "companies"
+  add_foreign_key "company_personals", "companies"
   add_foreign_key "curriculums", "users"
+  add_foreign_key "job_offers", "users"
   add_foreign_key "jobs", "curriculums"
 end

@@ -20,7 +20,7 @@ class CurriculumsController < ApplicationController
     @curriculum.user_id = token[0]['user_id']
 
     if @curriculum.save
-      render json: @curriculum
+      render json: { header: @curriculum, pastJobs: @curriculum.jobs, address: @curriculum.candidate_address, personal: @curriculum.candidate_personal }
     else
       render json: { message: @curriculum.errors.full_messages }
     end

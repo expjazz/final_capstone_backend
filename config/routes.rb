@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get 'company_details/create'
+  get 'job_offers/create'
+  get 'job_offers/index'
   # devise_for :users
   devise_for :users,
              path: '',
@@ -16,8 +19,9 @@ Rails.application.routes.draw do
   devise_scope :user do
     delete '/signout', to: 'sessions#delete'
     get '/loggeduser', to: 'sessions#logged?'
-
   end
   resources :curriculums
+  resources :job_offers
+  resources :company_details
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -12,7 +12,7 @@ class RegistrationsController < Devise::RegistrationsController
       resource.save
       token = encode_token({ user_id: resource.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
-      render_resource(resource)
+      render json: { user: { generalInfo: resource, name: resource.profile.name } }
     else
       render json: { message: resource.errors.full_messages }
     end

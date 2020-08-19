@@ -6,4 +6,5 @@ class User < ApplicationRecord
 
   belongs_to :profile, polymorphic: true
   has_one :curriculum
+  has_many :job_offers
 end

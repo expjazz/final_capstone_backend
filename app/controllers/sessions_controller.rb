@@ -14,8 +14,13 @@ class SessionsController < Devise::SessionsController
     if cookies[:token]
       token = JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
       @user = User.find(token[0]['user_id'])
-      render json: @user
-    else 
+      if @user.profile.type == 'Candidate'
+        render json: { user: { name: @user.profile.name, gerenalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } }
+      elsif @user.profile.type == 'Company'
+        render json: { user: { name: @user.profile.name, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers, address: @user.profile.company_address, personal: @user.profile.company_personal } }
+
+      end
+    else
       render json: { message: 'no user logged in' }
     end
   end
