@@ -3,10 +3,23 @@ class SessionsController < Devise::SessionsController
   include ActionController::Cookies
 
   def create
-    super
-    if @user
+    @user = User.find_by(email: params[:user][:email])
+
+    if @user.valid_password?(params[:user][:password])
       token = encode_token({ user_id: @user.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
+      if @user.profile_type == 'Candidate'
+        if @user.curriculum
+          render json: { user: { name: @user.profile.name, gerenalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } }
+        else
+          render json: { user: { name: @user.profile.name, gerenalInfo: @user } }
+
+        end
+      elsif @user.profile_type == 'Company'
+        render json: { user: { name: @user.profile.name, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers, address: @user.profile.company_address, personal: @user.profile.company_personal } }
+      end
+    else
+      render json: { message: 'Wrong email or password' }
     end
   end
 
