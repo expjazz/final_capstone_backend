@@ -1,5 +1,5 @@
 class CompanyDetailsController < ApplicationController
-  before_action :require_current_user
+  # before_action :require_current_user
 
   def create
     # @curriculum = Curriculum.new
@@ -8,12 +8,14 @@ class CompanyDetailsController < ApplicationController
     @user.profile = @company
     address = CompanyAddress.create(params_address)
     personal = CompanyPersonal.create(params_personal)
-    @company = Company.find(id)
-    @company.candidate_personal = personal
-    @company.candidate_address = address
+    @company.company_personal = personal
+    @company.company_address = address
 
-    if @curriculum.save
-      render json: { header: @curriculum, pastJobs: @curriculum.jobs, address: @curriculum.candidate_address, personal: @curriculum.candidate_personal }
+    if @user.save
+      token = encode_token({ user_id: @user.id, token: 'token' })
+      cookies[:token] = { value: token, httponly: true }
+      render json: { user: { generalInfo: @user, name: @user.profile.name }, company: { header: @company.header, address: @company.company_address,
+                                                                                        personal: @company.company_personal } }
     else
       render json: { message: @curriculum.errors.full_messages }
     end
@@ -26,7 +28,7 @@ class CompanyDetailsController < ApplicationController
   end
 
   def company_params
-    params.require(:company).permit(:name)
+    params.require(:company).permit(:name, :header)
   end
 
   def params_address
@@ -34,6 +36,6 @@ class CompanyDetailsController < ApplicationController
   end
 
   def params_personal
-    params[:company].require(:company_personal).permit(:cnpj, :size, :about_us)
+    params[:company].require(:company_personal).permit(:cnpj, :size, :aboutUs)
   end
 end
