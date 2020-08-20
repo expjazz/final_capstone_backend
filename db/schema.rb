@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_20_183440) do
+ActiveRecord::Schema.define(version: 2020_08_20_195131) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -34,12 +34,12 @@ ActiveRecord::Schema.define(version: 2020_08_20_183440) do
 
   create_table "candidate_job_applications", force: :cascade do |t|
     t.integer "candidate_id", null: false
-    t.integer "job_id", null: false
+    t.integer "job_offer_id", null: false
+    t.string "status"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "status"
     t.index ["candidate_id"], name: "index_candidate_job_applications_on_candidate_id"
-    t.index ["job_id"], name: "index_candidate_job_applications_on_job_id"
+    t.index ["job_offer_id"], name: "index_candidate_job_applications_on_job_offer_id"
   end
 
   create_table "candidate_personals", force: :cascade do |t|
@@ -141,7 +141,7 @@ ActiveRecord::Schema.define(version: 2020_08_20_183440) do
 
   add_foreign_key "candidate_addresses", "curriculums"
   add_foreign_key "candidate_job_applications", "candidates"
-  add_foreign_key "candidate_job_applications", "jobs"
+  add_foreign_key "candidate_job_applications", "job_offers"
   add_foreign_key "candidate_personals", "curriculums"
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "company_personals", "companies"

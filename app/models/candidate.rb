@@ -1,5 +1,5 @@
 class Candidate < ApplicationRecord
   has_one :user, as: :profile
-  has_many :job_applications, class_name: 'CandidateJobApplication', foreign_key: 'candidate_id'
-
+  has_many :jobs_applied, class_name: 'CandidateJobApplication', foreign_key: 'candidate_id'
+  has_many :jobs_tried, through: :candidates_applied, source: :job_offer
 end
