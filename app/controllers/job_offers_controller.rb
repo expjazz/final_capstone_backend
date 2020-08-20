@@ -2,12 +2,13 @@ class JobOffersController < ApplicationController
   before_action :require_current_user
   def create
     @user = User.find(info_current_user[0]['user_id'])
+    @company = Company.find(@user.profile_id)
     @job = JobOffer.new(params_job)
-    @job.user = @user 
+    @job.user = @user
     if @job.save 
-      render json: @job 
+      render json: { newJob: @job, company: @company }
     else  
-      render json: { message: @job.errors.full_messages}
+      render json: { message: @job.errors.full_messages }
     end
   end
 
