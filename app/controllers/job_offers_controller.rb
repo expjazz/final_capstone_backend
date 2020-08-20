@@ -5,20 +5,20 @@ class JobOffersController < ApplicationController
     @company = Company.find(@user.profile_id)
     @job = JobOffer.new(params_job)
     @job.user = @user
-    if @job.save 
+    if @job.save
       render json: { newJob: @job, company: @company }
-    else  
+    else
       render json: { message: @job.errors.full_messages }
     end
   end
 
   def index
+    render json: JobOffer.all.as_json(include: { user: { include: { profile: { only: :name } }, only: :email } })
   end
 
   private
 
-  def params_job 
+  def params_job
     params.require(:job_offer).permit(:requirement, :salary, :position)
   end
 end
-
