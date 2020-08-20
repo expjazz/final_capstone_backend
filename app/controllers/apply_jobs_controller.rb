@@ -6,8 +6,8 @@ class ApplyJobsController < ApplicationController
   def create
     @user = User.find(info_current_user[0]['user_id'])
     @candidate = Candidate.find(@user.profile_id)
-    @job = Job.find(params[:job_id])
-    @candidate_application = CandidateJobApplication.create(candidate: @candidate, job: @job, status: 'loading')
+    @job = JobOffer.find(params[:job_offer_id])
+    @candidate_application = CandidateJobApplication.create(candidate: @candidate, job_offer: @job, status: 'loading')
     if @candidate
       render json: @candidate_application
     else  

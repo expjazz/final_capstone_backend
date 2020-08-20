@@ -13,7 +13,8 @@ class JobOffersController < ApplicationController
   end
 
   def index
-    render json: JobOffer.all.as_json(include: { user: { include: { profile: { only: :name } }, only: :email } })
+    render json: JobOffer.all.as_json(include: [{user: { include: { profile: { only: :name } }, only: :email }}, {candidates: {include: {user: {include: :curriculum}}, only: :name}}])
+
   end
 
   private
