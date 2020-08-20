@@ -14,14 +14,17 @@ Rails.application.routes.draw do
                sessions: 'sessions',
                registrations: 'registrations'
              }
-  get 'users', to: 'users#index'
+  get '/users', to: 'users#index'
   get '/logged', to: 'sessions#logged_in'
+  get '/applyjobs', to: 'apply_jobs#index'
+
+  post '/applyjobs', to: 'apply_jobs#create'
   devise_scope :user do
     delete '/signout', to: 'sessions#delete'
     get '/loggeduser', to: 'sessions#logged?'
   end
   resources :curriculums
-  resources :job_offers
   resources :company_details
+  resources :job_offers
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
