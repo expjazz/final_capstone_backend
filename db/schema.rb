@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_19_180618) do
+ActiveRecord::Schema.define(version: 2020_08_20_152520) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -30,6 +30,16 @@ ActiveRecord::Schema.define(version: 2020_08_19_180618) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["curriculum_id"], name: "index_candidate_addresses_on_curriculum_id"
+  end
+
+  create_table "candidate_job_applications", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.integer "job_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index "\"candidate\", \"job\"", name: "index_candidate_job_applications_on_candidate_and_job", unique: true
+    t.index ["candidate_id"], name: "index_candidate_job_applications_on_candidate_id"
+    t.index ["job_id"], name: "index_candidate_job_applications_on_job_id"
   end
 
   create_table "candidate_personals", force: :cascade do |t|
@@ -130,6 +140,8 @@ ActiveRecord::Schema.define(version: 2020_08_19_180618) do
   end
 
   add_foreign_key "candidate_addresses", "curriculums"
+  add_foreign_key "candidate_job_applications", "candidates"
+  add_foreign_key "candidate_job_applications", "jobs"
   add_foreign_key "candidate_personals", "curriculums"
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "company_personals", "companies"
