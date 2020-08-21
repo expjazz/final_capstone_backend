@@ -10,9 +10,9 @@ class SessionsController < Devise::SessionsController
       cookies[:token] = { value: token, httponly: true }
       if @user.profile_type == 'Candidate'
         if @user.curriculum
-          render json: { user: { name: @user.profile.name, gerenalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } }
+          render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } }
         else
-          render json: { user: { name: @user.profile.name, gerenalInfo: @user }, curriculum: { message: 'no curriculum' } }
+          render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { message: 'no curriculum' } }
 
         end
       elsif @user.profile_type == 'Company'
