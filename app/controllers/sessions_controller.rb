@@ -34,7 +34,7 @@ class SessionsController < Devise::SessionsController
           render json: { user: { generalInfo: @user, name: @user.profile.name, jobsApplied: @user.profile.jobs_applied } }
         end
       elsif @user.profile_type == 'Company'
-        render json: { user: { name: @user.profile.name, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: :email } }, only: :name } }), address: @user.profile.company_address, personal: @user.profile.company_personal } }
+        render json: { user: { name: @user.profile.name, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id] } }, only: %i[name id] } }), address: @user.profile.company_address, personal: @user.profile.company_personal } }
 
       end
     else

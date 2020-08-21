@@ -23,6 +23,8 @@ Rails.application.routes.draw do
     delete '/signout', to: 'sessions#delete'
     get '/loggeduser', to: 'sessions#logged?'
   end
+
+  post '/acceptcandidates', to: 'apply_jobs#accept_application'
   resources :curriculums
   resources :company_details
   resources :job_offers
