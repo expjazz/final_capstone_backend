@@ -9,12 +9,11 @@ class JobOffersController < ApplicationController
       render json: { newJob: @job, company: @company }
     else
       render json: { message: @job.errors.full_messages }
-    end
+                end
   end
 
   def index
-    render json: JobOffer.all.as_json(include: [{user: { include: { profile: { only: :name } }, only: :email }}, {candidates: {include: {user: {include: :curriculum}}, only: :name}}])
-
+    render json: JobOffer.all.as_json(include: [{ user: { include: { profile: { only: :name } }, only: :email } }, { candidates: { include: { user: { include: :curriculum } }, only: [:name] } }, { approved: { include: { user: { include: :curriculum } }, only: [:name] } }])
   end
 
   private
