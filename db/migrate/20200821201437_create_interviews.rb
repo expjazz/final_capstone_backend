@@ -4,7 +4,7 @@ class CreateInterviews < ActiveRecord::Migration[6.0]
       t.references :candidate, null: false, foreign_key: true
       t.references :company, null: false, foreign_key: true
       t.references :job_offer_id, null: false, foreign_key: true
-
+      t.string :status
       t.timestamps
     end
   end

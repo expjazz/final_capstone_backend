@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_21_103817) do
+ActiveRecord::Schema.define(version: 2020_08_21_202222) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -108,6 +108,19 @@ ActiveRecord::Schema.define(version: 2020_08_21_103817) do
     t.index ["user_id"], name: "index_curriculums_on_user_id"
   end
 
+  create_table "interviews", force: :cascade do |t|
+    t.integer "candidate_id", null: false
+    t.integer "company_id", null: false
+    t.integer "job_offer_id_id", null: false
+    t.string "status"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "time"
+    t.index ["candidate_id"], name: "index_interviews_on_candidate_id"
+    t.index ["company_id"], name: "index_interviews_on_company_id"
+    t.index ["job_offer_id_id"], name: "index_interviews_on_job_offer_id_id"
+  end
+
   create_table "job_offers", force: :cascade do |t|
     t.string "requirement"
     t.integer "user_id", null: false
@@ -157,6 +170,9 @@ ActiveRecord::Schema.define(version: 2020_08_21_103817) do
   add_foreign_key "company_addresses", "companies"
   add_foreign_key "company_personals", "companies"
   add_foreign_key "curriculums", "users"
+  add_foreign_key "interviews", "candidates"
+  add_foreign_key "interviews", "companies"
+  add_foreign_key "interviews", "job_offer_ids"
   add_foreign_key "job_offers", "users"
   add_foreign_key "jobs", "curriculums"
 end

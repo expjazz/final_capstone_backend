@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'interviews/create'
+  get 'interviews/update'
   get 'company_details/create'
   get 'job_offers/create'
   get 'job_offers/index'
@@ -25,6 +27,7 @@ Rails.application.routes.draw do
   end
 
   post '/acceptcandidates', to: 'apply_jobs#accept_application'
+  post '/interviews/create', to: 'interviews#create'
   resources :curriculums
   resources :company_details
   resources :job_offers

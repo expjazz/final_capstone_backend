@@ -5,4 +5,5 @@ class Candidate < ApplicationRecord
 
   has_many :applications_accepted, class_name: 'ApplicationAccepted', foreign_key: 'candidate_id'
   has_many :jobs_accepted, through: :applications_accepted, source: :job_offer
+  has_many :interviews
 end
