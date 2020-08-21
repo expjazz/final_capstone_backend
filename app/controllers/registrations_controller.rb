@@ -8,8 +8,7 @@ class RegistrationsController < Devise::RegistrationsController
     resource.profile = Company.new(name: params[:company][:name]) if params[:company]
     resource.profile = Admin.new(name: params[:admin][:name]) if params[:admin]
 
-    if resource.valid?
-      resource.save
+    if resource.save
       token = encode_token({ user_id: resource.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
       render json: { user: { generalInfo: resource, name: resource.profile.name } }
