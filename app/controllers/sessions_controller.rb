@@ -10,7 +10,7 @@ class SessionsController < Devise::SessionsController
       cookies[:token] = { value: token, httponly: true }
       if @user.profile_type == 'Candidate'
         if @user.curriculum
-          render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } }
+          render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
         else
           render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { message: 'no curriculum' } }
 
@@ -29,7 +29,7 @@ class SessionsController < Devise::SessionsController
       @user = User.find(token[0]['user_id'])
       if @user.profile_type == 'Candidate'
         if @user.curriculum
-          render json: { user: { name: @user.profile.name, generalInfo: @user, jobsApplied: @user.profile.jobs_applied }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } }
+          render json: { user: { name: @user.profile.name, generalInfo: @user, jobsApplied: @user.profile.jobs_applied }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
         else
           render json: { user: { generalInfo: @user, name: @user.profile.name, jobsApplied: @user.profile.jobs_applied } }
         end
