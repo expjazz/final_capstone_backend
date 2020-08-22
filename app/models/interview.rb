@@ -1,5 +1,5 @@
 class Interview < ApplicationRecord
   belongs_to :candidate
   belongs_to :company
-  belongs_to :job_offer_id
+  belongs_to :job_offer
 end
