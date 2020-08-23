@@ -10,5 +10,11 @@ class InterviewsController < ApplicationController
     render json: @interview.as_json(include: %i[company candidate job_offer]) if @interview
   end
 
-  def update; end
+  def update
+    @interview = Interview.find_by(candidate_id: params[:candidate_id], company_id: params[:company_id], job_offer_id: params[:job_offer_id])
+
+    @interview.time = params[:time] if params[:time]
+    @interview.status = params[:status] if params[:status]
+    render json: @interview.as_json(include: %i[company candidate job_offer]) if @interview.save
+  end
 end
