@@ -26,6 +26,32 @@ class CurriculumsController < ApplicationController
     end
   end
 
+  def update
+    address = CandidateAddress.create(params_address)
+    personal = CandidatePersonal.create(params_personal)
+    token = JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
+
+    @user = User.find(token[0]['user_id'])
+
+    @user.curriculum.update(params_curriculum)
+    @user.curriculum.candidate_personal.update(params_personal)
+    @user.curriculum.candidate_address.update(params_address)
+    if params[:curriculum][:jobs]
+      @user.curriculum.jobs.destroy_all
+      ind = 0
+      params[:curriculum][:jobs].size.times do
+        @new_job = Job.create(start: params[:curriculum][:jobs][ind][:start], end: params[:curriculum][:jobs][ind][:end], name: params[:curriculum][:jobs][ind][:name])
+        @user.curriculum.jobs.push(@new_job)
+        ind += 1
+      end
+    end
+    if @user.curriculum.save
+      render json: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }
+    else
+      render json: { message: @curriculum.errors.full_messages }
+    end
+  end
+
   private
 
   def params_curriculum

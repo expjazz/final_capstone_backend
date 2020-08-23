@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   post '/acceptcandidates', to: 'apply_jobs#accept_application'
   post '/interviews/create', to: 'interviews#create'
   patch 'interviews/update', to: 'interviews#update'
+  patch '/curriculums', to: 'curriculums#update'
   resources :curriculums
   resources :company_details
   resources :job_offers

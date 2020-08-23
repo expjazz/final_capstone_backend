@@ -33,7 +33,14 @@ class ApplicationController < ActionController::API
 
   def require_current_user
     if cookies[:token]
-      puts JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
+      token = JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
+      @user = User.find(token[0]['user_id'])
+      if @user
+        p @user
+      else
+        render json: { message: 'needs user' }
+
+      end
     else
       render json: { message: 'needs user' }
     end
