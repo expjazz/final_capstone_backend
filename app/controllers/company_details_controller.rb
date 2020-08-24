@@ -14,8 +14,7 @@ class CompanyDetailsController < ApplicationController
     if @user.save
       token = encode_token({ user_id: @user.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
-      render json: { user: { generalInfo: @user, name: @user.profile.name }, companyInfo: { header: @company.header, address: @company.company_address, imageUrl: @company.image_url
-                                                                                            personal: @company.company_personal } }
+      render json: { user: { generalInfo: @user, image: @user.profile.image_url, name: @user.profile.name }, companyInfo: { header: @company.header, address: @company.company_address, personal: @company.company_personal } }
     else
       render json: { message: @curriculum.errors.full_messages }
     end

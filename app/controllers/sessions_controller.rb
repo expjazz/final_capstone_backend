@@ -10,13 +10,13 @@ class SessionsController < Devise::SessionsController
       cookies[:token] = { value: token, httponly: true }
       if @user.profile_type == 'Candidate'
         if @user.curriculum
-          render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal } , image: @user.profile.image_url, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
+          render json: { user: { name: @user.profile.name, generalInfo: @user, image: @user.profile.image_url }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
         else
-          render json: { user: { name: @user.profile.name, generalInfo: @user }, curriculum: { message: 'no curriculum' } }
+          render json: { user: { name: @user.profile.name, generalInfo: @user, image: @user.profile.image_url }, curriculum: { message: 'no curriculum' } }
 
         end
       elsif @user.profile_type == 'Company'
-        render json: { user: { name: @user.profile.name, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id] } }, only: %i[name id] } }), image: @user.profile.image_url, address: @user.profile.company_address, personal: @user.profile.company_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
+        render json: { user: { name: @user.profile.name, image: @user.profile.image_url, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id] } }, only: %i[name id] } }), address: @user.profile.company_address, personal: @user.profile.company_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
       end
     else
       render json: { message: 'Wrong email or password' }
@@ -29,12 +29,12 @@ class SessionsController < Devise::SessionsController
       @user = User.find(token[0]['user_id'])
       if @user.profile_type == 'Candidate'
         if @user.curriculum
-          render json: { user: { name: @user.profile.name, generalInfo: @user, jobsApplied: @user.profile.jobs_applied }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, image: @user.profile.image_url, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
+          render json: { user: { name: @user.profile.name, image: @user.profile.image_url, generalInfo: @user, jobsApplied: @user.profile.jobs_applied }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
         else
-          render json: { user: { generalInfo: @user, name: @user.profile.name, jobsApplied: @user.profile.jobs_applied } }
+          render json: { user: { generalInfo: @user, image: @user.profile.image_url, name: @user.profile.name, jobsApplied: @user.profile.jobs_applied } }
         end
       elsif @user.profile_type == 'Company'
-        render json: { user: { name: @user.profile.name, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id] } }, only: %i[name id] } }), address: @user.profile.company_address, image: @user.profile.image_url,personal: @user.profile.company_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
+        render json: { user: { name: @user.profile.name, image: @user.profile.image_url, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id] } }, only: %i[name id] } }), address: @user.profile.company_address, personal: @user.profile.company_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
 
       end
     else
