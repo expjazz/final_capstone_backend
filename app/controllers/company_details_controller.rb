@@ -10,10 +10,11 @@ class CompanyDetailsController < ApplicationController
     personal = CompanyPersonal.create(params_personal)
     @company.company_personal = personal
     @company.company_address = address
+
     if @user.save
       token = encode_token({ user_id: @user.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
-      render json: { user: { generalInfo: @user, name: @user.profile.name }, companyInfo: { header: @company.header, address: @company.company_address,
+      render json: { user: { generalInfo: @user, name: @user.profile.name }, companyInfo: { header: @company.header, address: @company.company_address, imageUrl: @company.image_url
                                                                                             personal: @company.company_personal } }
     else
       render json: { message: @curriculum.errors.full_messages }
@@ -27,7 +28,7 @@ class CompanyDetailsController < ApplicationController
   end
 
   def company_params
-    params.require(:company).permit(:name, :header)
+    params.require(:company).permit(:name, :header, :image_url)
   end
 
   def params_address

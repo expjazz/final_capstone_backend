@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_22_113112) do
+ActiveRecord::Schema.define(version: 2020_08_24_090042) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -67,6 +67,7 @@ ActiveRecord::Schema.define(version: 2020_08_22_113112) do
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "image_url"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(version: 2020_08_22_113112) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "header"
+    t.string "image_url"
   end
 
   create_table "company_addresses", force: :cascade do |t|
@@ -119,6 +121,13 @@ ActiveRecord::Schema.define(version: 2020_08_22_113112) do
     t.index ["candidate_id"], name: "index_interviews_on_candidate_id"
     t.index ["company_id"], name: "index_interviews_on_company_id"
     t.index ["job_offer_id"], name: "index_interviews_on_job_offer_id"
+  end
+
+  create_table "items", force: :cascade do |t|
+    t.string "image"
+    t.string "video"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "job_offers", force: :cascade do |t|
