@@ -14,10 +14,20 @@ class CompanyDetailsController < ApplicationController
     if @user.save
       token = encode_token({ user_id: @user.id, token: 'token' })
       cookies[:token] = { value: token, httponly: true }
-      render json: { user: { generalInfo: @user, image: @user.profile.image_url, name: @user.profile.name }, companyInfo: { header: @company.header, address: @company.company_address, personal: @company.company_personal } }
+      render json: { user: { generalInfo: @user, name: @user.profile.name }, companyInfo: { header: @company.header, address: @company.company_address, personal: @company.company_personal, image: @user.profile.image_url } }
     else
-      render json: { message: @curriculum.errors.full_messages }
+      render json: { message: @company.errors.full_messages }
     end
+  end
+
+  def update
+    token = JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
+
+    @user = User.find(token[0]['user_id'])
+    @user.profile.update(company_params)
+    @user.profile.company_address.update(params_address)
+    @user.profile.company_personal.update(params_personal)
+    render json: { user: { generalInfo: @user, name: @user.profile.name }, companyInfo: { header: @user.profile.header, address: @user.profile.company_address, personal: @user.profile.company_personal, image: @user.profile.image_url } }
   end
 
   private

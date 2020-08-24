@@ -26,7 +26,8 @@ class SessionsController < Devise::SessionsController
   def logged?
     if cookies[:token]
       token = JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
-      @user = User.find(token[0]['user_id'])
+      @user = User.find(token[0]['user_id']) || nil
+      render json: { message: 'no user logged in' } unless @user
       if @user.profile_type == 'Candidate'
         if @user.curriculum
           render json: { user: { name: @user.profile.name, image: @user.profile.image_url, generalInfo: @user, jobsApplied: @user.profile.jobs_applied }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
@@ -34,7 +35,7 @@ class SessionsController < Devise::SessionsController
           render json: { user: { generalInfo: @user, image: @user.profile.image_url, name: @user.profile.name, jobsApplied: @user.profile.jobs_applied } }
         end
       elsif @user.profile_type == 'Company'
-        render json: { user: { name: @user.profile.name, image: @user.profile.image_url, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: { candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id] } }, only: %i[name id] } }), address: @user.profile.company_address, personal: @user.profile.company_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
+        render json: { user: { name: @user.profile.name, image: @user.profile.image_url, generalInfo: @user }, companyInfo: { header: @user.profile.header, jobOffers: @user.job_offers.as_json(include: [{ candidates: { include: { user: { include: { curriculum: { include: %i[candidate_address candidate_personal] } }, only: %i[email id image_url] } }, only: %i[name id image_url] } }, :approved]), address: @user.profile.company_address, personal: @user.profile.company_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
 
       end
     else
