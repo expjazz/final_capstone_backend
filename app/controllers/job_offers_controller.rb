@@ -1,5 +1,5 @@
 class JobOffersController < ApplicationController
-  before_action :require_current_user
+  before_action :require_current_user, only: :create
   def create
     @user = User.find(info_current_user[0]['user_id'])
     @company = Company.find(@user.profile_id)
