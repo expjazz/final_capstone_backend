@@ -14,37 +14,7 @@ require 'action_view/railtie'
 require 'action_cable/engine'
 # require "sprockets/railtie"
 # require "rails/test_unit/railtie"
-class SameSiteCookies
 
-  def initialize(app)
-    @app = app
-  end
-
-  def call(env)
-    status, headers, body = @app.call(env)
-
-    set_cookie_header = headers['Set-Cookie']
-
-    if set_cookie_header && !(set_cookie_header =~ /SameSite\=/)
-      # the set cookie header variable is frozen
-      new_set_cookie_header = set_cookie_header.dup
-      new_set_cookie_header << ';' if !(set_cookie_header =~ /;$/)
-      new_set_cookie_header << ' SameSite=None'
-      new_set_cookie_header << '; Secure' if is_ssl?
-
-      headers['Set-Cookie'] = new_set_cookie_header
-
-    end
-
-    [status, headers, body]
-  end
-
-  private
-
-  def is_ssl?
-    # custom logic for my application
-  end
-end
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -52,7 +22,7 @@ Bundler.require(*Rails.groups)
 module WorkForAll
   class Application < Rails::Application
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.insert_before(ActionDispatch::Cookies, SameSiteCookies)
+    # config.middleware.insert_before(ActionDispatch::Cookies, SameSiteCookies)
 
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
