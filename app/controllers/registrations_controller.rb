@@ -9,7 +9,7 @@ class RegistrationsController < Devise::RegistrationsController
     resource.profile = Admin.new(name: params[:admin][:name]) if params[:admin]
     if resource.save
       token = encode_token({ user_id: resource.id, token: 'token' })
-      cookies[:token] = { value: token, httponly: true, same_site: 'none' }
+      cookies[:token] = { value: token, httponly: true, same_site: :none }
       render json: { user: { generalInfo: resource, name: resource.profile.name, image: resource.profile.image_url, } }
     else
       render json: { message: resource.errors.full_messages }

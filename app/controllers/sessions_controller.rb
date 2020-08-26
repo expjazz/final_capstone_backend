@@ -7,7 +7,7 @@ class SessionsController < Devise::SessionsController
 
     if @user.valid_password?(params[:user][:password])
       token = encode_token({ user_id: @user.id, token: 'token' })
-      cookies[:token] = { value: token, httponly: true, same_site: 'none' }
+      cookies[:token] = { value: token, httponly: true, same_site: :none }
       if @user.profile_type == 'Candidate'
         if @user.curriculum
           render json: { user: { name: @user.profile.name, generalInfo: @user, image: @user.profile.image_url }, curriculum: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }, interviews: @user.profile.interviews.as_json(include: %i[company candidate job_offer]) }
