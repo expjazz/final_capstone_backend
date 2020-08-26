@@ -38,9 +38,14 @@ json.companyInfo do
   json.personal @user.profile.company_personal
 end
 json.interviews do
-  json.array! @user.profile.interviews do |i|
-    json.company i.company
-    json.candidate i.candidate
-    json.job_offer i.job_offer
+  json.array! @user.profile.interviews do |_i|
+    json.id x.id
+    json.candidate_id x.candidate_id
+    json.company_id x.company_id
+    json.job_offer_id x.job_offer_id
+    json.status x.status
+    json.company x.company
+    json.candidate x.candidate
+    json.job_offer x.job_offer
   end
 end

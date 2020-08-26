@@ -1,3 +1,4 @@
+# rubocob:disable Metrics/BlockLength
 if @user.profile_type == 'Candidate'
   json.user do
     json.email @user.email
@@ -68,15 +69,19 @@ if @user.profile_type == 'Company'
         json.position j.position
       end
     end
-
     json.address @user.profile.company_address
     json.personal @user.profile.company_personal
   end
   json.interviews do
-    json.array! @user.profile.interviews do |i|
-      json.company i.company
-      json.candidate i.candidate
-      json.job_offer i.job_offer
+    json.array! @user.profile.interviews do |x|
+      json.id x.id
+      json.candidate_id x.candidate_id
+      json.company_id x.company_id
+      json.job_offer_id x.job_offer_id
+      json.status x.status
+      json.company x.company
+      json.candidate x.candidate
+      json.job_offer x.job_offer
     end
   end
 end

@@ -1,5 +1,6 @@
 class CurriculumsController < ApplicationController
   before_action :require_current_user
+  # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Layout/LineLength
 
   def create
     # @curriculum = Curriculum.new
@@ -11,7 +12,8 @@ class CurriculumsController < ApplicationController
     if params[:curriculum][:jobs]
       ind = 0
       params[:curriculum][:jobs].size.times do
-        @new_job = Job.create(start: params[:curriculum][:jobs][ind][:start], end: params[:curriculum][:jobs][ind][:end], name: params[:curriculum][:jobs][ind][:name])
+        @new_job = Job.create(start: params[:curriculum][:jobs][ind][:start], end:
+          params[:curriculum][:jobs][ind][:end], name: params[:curriculum][:jobs][ind][:name])
         @curriculum.jobs.push(@new_job)
         ind += 1
       end
@@ -27,8 +29,6 @@ class CurriculumsController < ApplicationController
   end
 
   def update
-    address = CandidateAddress.create(params_address)
-    personal = CandidatePersonal.create(params_personal)
     token = JWT.decode(cookies[:token], ENV['DEVISE_SECRET_KEY'])
 
     @user = User.find(token[0]['user_id'])
@@ -40,13 +40,17 @@ class CurriculumsController < ApplicationController
       @user.curriculum.jobs.destroy_all
       ind = 0
       params[:curriculum][:jobs].size.times do
-        @new_job = Job.create(start: params[:curriculum][:jobs][ind][:start], end: params[:curriculum][:jobs][ind][:end], name: params[:curriculum][:jobs][ind][:name])
+        @new_job = Job.create(start: params[:curriculum][:jobs][ind][:start],
+                              end: params[:curriculum][:jobs][ind][:end],
+                              name: params[:curriculum][:jobs][ind][:name])
         @user.curriculum.jobs.push(@new_job)
         ind += 1
       end
     end
     if @user.curriculum.save
-      render json: { header: @user.curriculum, pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address, personal: @user.curriculum.candidate_personal }
+      render json: { header: @user.curriculum,
+                     pastJobs: @user.curriculum.jobs, address: @user.curriculum.candidate_address,
+                     personal: @user.curriculum.candidate_personal }
     else
       render json: { message: @curriculum.errors.full_messages }
     end
@@ -66,5 +70,3 @@ class CurriculumsController < ApplicationController
     params[:curriculum].require(:candidate_personal).permit(:children, :married, :cpf, :race, :nationality)
   end
 end
-
-# candidate_address: %i[country cep state city hood street cel], candidate_personal: %i[children married cpf race nationality])

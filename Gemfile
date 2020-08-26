@@ -8,7 +8,7 @@ gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
 # Use sqlite3 as the database for Active Record
 # Use Puma as the app server
 gem 'devise-jwt', '~> 0.7.0'
-gem "figaro"
+gem 'figaro'
 
 gem 'dry-configurable', '0.9.0'
 
@@ -49,4 +49,4 @@ group :production do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
