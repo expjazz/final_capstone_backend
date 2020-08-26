@@ -21,6 +21,9 @@ Bundler.require(*Rails.groups)
 
 module WorkForAll
   class Application < Rails::Application
+    require 'middleware/secure_cookies'
+    config.middleware.insert_after ActionDispatch::Static, Middleware::SecureCookies
+
     config.middleware.use ActionDispatch::Cookies
     # config.middleware.insert_before(ActionDispatch::Cookies, SameSiteCookies)
 
