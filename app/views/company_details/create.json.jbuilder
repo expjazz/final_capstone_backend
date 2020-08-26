@@ -1,0 +1,46 @@
+json.user do
+  json.name @user.profile.name
+  json.image @user.profile.image_url
+  json.generalInfo @user
+end
+json.companyInfo do
+  json.header @user.profile.header
+  json.jobOffers do
+    json.array! @user.job_offers do |j|
+      json.candidates do
+        json.array! j.candidates do |c|
+          json.user do
+            json.curriculum do
+              json.candidate_address c.user.curriculum.candidate_address
+              json.candidate_personal c.user.curriculum.candidate_personal
+              json.id c.user.curriculum.id
+              json.user_id c.user.curriculum.user.id
+              json.about_me c.user.curriculum.about_me
+            end
+            json.id c.user.id
+            json.email c.user.email
+          end
+          json.name c.name
+          json.id c.id
+          json.image_url c.image_url
+        end
+      end
+      json.approved j.approved
+      json.id j.id
+      json.requirement j.requirement
+      json.user_id @user.id
+      json.salary j.salary
+      json.position j.position
+    end
+  end
+
+  json.address @user.profile.company_address
+  json.personal @user.profile.company_personal
+end
+json.interviews do
+  json.array! @user.profile.interviews do |i|
+    json.company i.company
+    json.candidate i.candidate
+    json.job_offer i.job_offer
+  end
+end
