@@ -1,6 +1,5 @@
 module Middleware
   class SecureCookies
-
     COOKIE_SEPARATOR = "\n".freeze
 
     def initialize(app)
@@ -25,6 +24,5 @@ module Middleware
 
       [status, headers, body]
     end
-
   end
 end

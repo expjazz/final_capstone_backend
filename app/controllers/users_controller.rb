@@ -3,8 +3,7 @@ class UsersController < ApplicationController
   before_action :require_current_user
 
   def index
-    @users = User.all 
+    @users = User.all
     render json: @users
   end
-
 end

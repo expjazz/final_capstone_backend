@@ -12,8 +12,6 @@ gem "figaro"
 
 gem 'dry-configurable', '0.9.0'
 
-
-
 gem 'puma', '~> 4.1'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.7'
