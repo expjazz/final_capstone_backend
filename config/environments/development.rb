@@ -36,12 +36,13 @@ Rails.application.configure do
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
+  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
+
   # Raise an error on page load if there are pending migrations.
   config.active_record.migration_error = :page_load
 
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
-
 
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
