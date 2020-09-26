@@ -48,4 +48,12 @@ class CompanyDetailsController < ApplicationController
   def params_personal
     params[:company].require(:company_personal).permit(:cnpj, :size, :aboutUs)
   end
+
+  def params_guitar 
+    params[:instrument].require(:guitar).permit(:strings, :pickups, :image_url)
+  end
+
+  def params_bass 
+    params[:indtrument].require(:bass).permit(:whatever)
+  end 
 end

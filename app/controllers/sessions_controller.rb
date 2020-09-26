@@ -24,6 +24,7 @@ class SessionsController < Devise::SessionsController
     end
   end
 
+
   def delete
     cookies.delete :token
     render json: { message: 'log out success' }
